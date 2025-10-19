@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.head')
+        @livewireStyles
     </head>
     <body class="min-h-screen bg-[#f1f1f1] dark:bg-zinc-800">
         {{-- SIDEBAR --}}
@@ -18,13 +19,14 @@
 
             <flux:navlist variant="outline" class="w-full">
                 <flux:navlist.group class="grid w-full *:hover:text-white!">
-                    <flux:navlist.item icon="window" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
-                    <flux:navlist.item icon="user-group" :href="route('members')" :current="request()->routeIs('members')" wire:navigate>{{ __('Members') }}</flux:navlist.item>
-                    <flux:navlist.item icon="calendar" :href="route('events')" :current="request()->routeIs('events')" wire:navigate>{{ __('Events') }}</flux:navlist.item>
-                    <flux:navlist.item icon="check-circle" :href="route('attendance')" :current="request()->routeIs('attendance')" wire:navigate>{{ __('Attendance') }}</flux:navlist.item>
-                    <flux:navlist.item icon="banknotes" :href="route('finances')" :current="request()->routeIs('finance')" wire:navigate>{{ __('Finances') }}</flux:navlist.item>
-                    <flux:navlist.item icon="credit-card" :href="route('expense')" :current="request()->routeIs('expense')" wire:navigate>{{ __('Expense') }}</flux:navlist.item>
-                    <flux:navlist.item icon="presentation-chart-line" :href="route('report')" :current="request()->routeIs('report')" wire:navigate>{{ __('Report') }}</flux:navlist.item>
+                    <flux:navlist.item icon="window" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate> {{ __('Dashboard') }} </flux:navlist.item>
+                    <flux:navlist.item icon="user-group" :href="route('lifegroups')" :current="request()->routeIs('lifegroups')" wire:navigate> {{ __('Life Group') }} </flux:navlist.item>
+                    <flux:navlist.item icon="users" :href="route('members')" :current="request()->routeIs('members')" wire:navigate> {{ __('Members') }} </flux:navlist.item>
+                    {{-- <flux:navlist.item icon="calendar" :href="route('events')" :current="request()->routeIs('events')" wire:navigate> {{ __('Events') }} </flux:navlist.item>
+                    <flux:navlist.item icon="check-circle" :href="route('attendance')" :current="request()->routeIs('attendance')" wire:navigate> {{ __('Attendance') }} </flux:navlist.item>
+                    <flux:navlist.item icon="banknotes" :href="route('finances')" :current="request()->routeIs('finance')" wire:navigate> {{ __('Finances') }} </flux:navlist.item>
+                    <flux:navlist.item icon="credit-card" :href="route('expense')" :current="request()->routeIs('expense')" wire:navigate> {{ __('Expense') }} </flux:navlist.item>
+                    <flux:navlist.item icon="presentation-chart-line" :href="route('report')" :current="request()->routeIs('report')" wire:navigate> {{ __('Report') }} </flux:navlist.item> --}}
                 </flux:navlist.group>
             </flux:navlist>
         </flux:sidebar>
@@ -39,6 +41,7 @@
                     <flux:profile
                         :initials="auth()->user()->initials()"
                         :chevron="false"
+                        :avatar="auth()->user()->profile_photo_url ? auth()->user()->profile_photo_url : null"
                         circle
                     />
 
@@ -84,7 +87,7 @@
         <flux:main>
             {{ $slot }}
         </flux:main>
-
+        @livewireScripts
         @fluxScripts
     </body>
 </html>

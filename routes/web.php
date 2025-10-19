@@ -1,8 +1,16 @@
 <?php
 
 use App\Http\Controllers\MemberController;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+
+use App\Livewire\EventsTable;
+use App\Livewire\CreateEvent;
+use App\Livewire\Member\ViewMember;
+use App\Livewire\Member\EditMemberForm;
+use App\Livewire\LifeGroup\LifeGroupList;
+use App\Livewire\LifeGroup\LifeGroupDetails;
 
 // Front Page
 Route::get('/', function () {
@@ -63,10 +71,48 @@ Route::view('dashboard', 'dashboard.index')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-// Members
-Route::get('/members', [MemberController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('members');
+// LIFE GROUPS - Fixed Routes
+Route::get('/lifegroups', LifeGroupList::class)
+    ->name('lifegroups')
+    ->middleware(['auth']);
+
+Route::get('/lifegroups/create', function () {
+    return view('dashboard.lifegroups.create');
+})->middleware(['auth', 'verified'])->name('lifegroups.create');
+
+Route::get('/lifegroups/{lifeGroup}', LifeGroupDetails::class)
+    ->name('life-groups.show')
+    ->middleware(['auth']);
+
+// MEMBERS - Fixed Routes (Separate from lifegroups)
+Route::get('/members', function () {
+    return view('dashboard.members.index');
+})->middleware(['auth', 'verified'])->name('members');
+
+Route::get('/members/create', function () {
+    return view('dashboard.members.create');
+})->middleware(['auth', 'verified'])->name('members.create');
+
+Route::get('/members/{member}', ViewMember::class)
+    ->name('members.show')
+    ->middleware(['auth', 'verified']);
+
+Route::get('/members/{member}/edit', EditMemberForm::class)
+    ->name('members.edit')
+    ->middleware(['auth', 'verified']);
+
+// Remove these duplicate/conflicting routes:
+// Route::get('/lifegroups', function () {
+//     return view('dashboard.lifegroups.index');
+// })->middleware(['auth', 'verified'])->name('lifegroups');
+//
+// Route::get('/lifegroups/members', function () {
+//     return view('dashboard.lifegroups.members.index');
+// })->middleware(['auth', 'verified'])->name('members');
+//
+// Route::get('/lifegroups/members/create', function () {
+//     return view('dashboard.lifegroups.members.create');
+// })->middleware(['auth', 'verified'])->name('members.create');
 
 // Events
 Route::view('events', 'dashboard.events')
