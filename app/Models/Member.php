@@ -16,6 +16,7 @@ use App\Enums\EventsEnums\Event;
 
 class Member extends Model
 {
+    // fillables are changable inputs: mga pwedeng baguhin ng user or mga initial inputs
     protected $fillable = [
         'first_name',
         'middle_name',
@@ -42,6 +43,7 @@ class Member extends Model
         'is_active'
     ];
 
+    // Data type conversion - automatically converts field values to specific data types; same siya ng casting
     protected $casts = [
         'birth_date' => 'date',
         'date_invited' => 'date',
@@ -56,8 +58,14 @@ class Member extends Model
         'service_invited' => Event::class,
     ];
 
-    protected $appends = ['full_name', 'member_photo_url', 'age'];
+    // these fields don't exist in database, but are added when converting model to array/JSON
+    protected $appends = [
+        'full_name',
+        'member_photo_url',
+        'age'
+    ];
 
+    // RELATIONSHIPS
     public function lifeGroup(): BelongsTo
     {
         return $this->belongsTo(LifeGroup::class, 'life_group_id');
@@ -68,9 +76,10 @@ class Member extends Model
         return $this->belongsTo(User::class, 'network_leader_id');
     }
 
+    // FROM $appends
     public function getFullNameAttribute(): string
     {
-        return trim("{$this->first_name} {$this->middle_name} {$this->last_name}");
+        return trim("{$this->first_name} {$this->middle_name} {$this->last_name}"); // merging  first_name, middle_name, and last_name to be full_name
     }
 
     public function getMemberPhotoUrlAttribute(): ?string

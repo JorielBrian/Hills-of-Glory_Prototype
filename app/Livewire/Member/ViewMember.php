@@ -4,13 +4,6 @@ namespace App\Livewire\Member;
 
 use Livewire\Component;
 use App\Models\Member;
-use App\Enums\MemberEnums\Gender;
-use App\Enums\MemberEnums\MemberRole;
-use App\Enums\MemberEnums\HillsJourney;
-use App\Enums\MemberEnums\MemberType;
-use App\Enums\MemberEnums\Ministry;
-use App\Enums\MemberEnums\MinistryRole;
-use App\Enums\EventsEnums\Event;
 
 class ViewMember extends Component
 {

@@ -129,6 +129,7 @@ class CreateMember extends Component
                 $networkLeaderId = $lifeGroup->network_leader_id;
             }
 
+            // Member Model
             Member::create([
                 'first_name' => $this->first_name,
                 'middle_name' => $this->middle_name,
